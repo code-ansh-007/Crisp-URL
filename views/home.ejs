@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home Page</title>
+    <style>
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+      .form-style {
+        display: flex;
+        flex-direction: column;
+        width: 300px;
+        gap: 20px;
+      }
+      .shortURL {
+        display: flex;
+        margin-top: 20px;
+        flex-direction: column;
+        width: 300px;
+        gap: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Crisp-URL</h1>
+    <form class="form-style" method="POST" action="/url">
+      <label for="redirectURL">Enter Loooong URL:</label>
+      <input
+        type="text"
+        id="redirectURL"
+        name="url"
+        placeholder="https://example.com"
+      />
+      <button type="submit">Generate Crisp URL</button>
+    </form>
+    <% if (shortURL) { %>
+    <div id="shortURL" class="shortURL">
+      <span>Short URL:</span>
+      <a href="<%= shortURL  %>" target="_blank"><%= shortURL %></a>
+      <button id="copyButton">Copy Crisp URL</button>
+    </div>
+    <% } %>
+  </body>
+  <script>
+    function copyURLToClipboard() {
+      var tempInput = document.createElement("input");
+      tempInput.value = "<%= shortURL %>"; // ? this is the only way you can access the EJS props in the script tag which is by using the EJS wierd syntax
+      document.body.appendChild(tempInput);
+      tempInput.select();
+      document.execCommand("copy");
+      document.body.removeChild(tempInput);
+      alert("URL has been copied to clipboard!");
+    }
+
+    document
+      .getElementById("copyButton")
+      .addEventListener("click", copyURLToClipboard);
+    if (performance.navigation.type === 1) {
+      var shortURLParagraph = document.getElementById("shortURL");
+      if (shortURLParagraph) {
+        shortURLParagraph.style.display = "none";
+      }
+    }
+  </script>
+</html>
