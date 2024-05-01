@@ -7,7 +7,7 @@ import path from "path";
 
 // ? Server setup and initialization
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT;
 
 // ? middlewares
 app.use(express.json());
@@ -22,7 +22,9 @@ app.use("/url", urlRouter); // ! the route in this router routes middleware is t
 app.use("/", staticRouter); // ! this route will handle all the static page routing
 
 // ? MongoDB connection
-connectMongoDB("mongodb://localhost:27017/short-url")
+connectMongoDB(
+  `mongodb+srv://anshpradhan03:${process.env.MONGODB_PASSWORD}@cluster0.j57z1me.mongodb.net/`
+)
   .then(() => console.log("Successfully connected to MongoDB"))
   .catch((err) => console.log("error while connecting to mongo", err));
 
