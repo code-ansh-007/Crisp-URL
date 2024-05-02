@@ -39,7 +39,6 @@ export async function handleGetShortURL(req, res) {
       },
     }
   );
-  console.log(entry);
   const httpsPattern = /^https:\/\//;
 
   if (!httpsPattern.test(entry?.redirectURL)) {
