@@ -7,6 +7,8 @@ import userRouter from "./routes/user.js";
 // ? routes import end
 import path from "path";
 import "dotenv/config";
+import cookieParser from "cookie-parser";
+import { restrictToLoggedInUserOnly } from "./middlewares/auth.js";
 
 // ? Server setup and initialization
 const app = express();
@@ -15,6 +17,7 @@ const port = process.env.PORT;
 // ? middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: false })); // ! this middleware helps to parse form data in the express server as the body content in the post request
+app.use(cookieParser);
 
 // * EJS setup
 app.set("view engine", "ejs"); // ? telling express that we are using EJS as the templating engine
