@@ -35,10 +35,12 @@
       />
       <button type="submit">Generate Crisp URL</button>
     </form>
-    <% if (shortURL) { %>
+    <% if (locals.shortURL) { %>
     <div id="shortURL" class="shortURL">
       <span>Short URL:</span>
-      <a href="<%= shortURL  %>" target="_blank"><%= shortURL %></a>
+      <a href="<%= locals.shortURL  %>" target="_blank"
+        ><%= locals.shortURL %></a
+      >
       <button id="copyButton">Copy Crisp URL</button>
     </div>
     <% } %>
@@ -46,7 +48,7 @@
   <script>
     function copyURLToClipboard() {
       var tempInput = document.createElement("input");
-      tempInput.value = "<%= shortURL %>"; // ? this is the only way you can access the EJS props in the script tag which is by using the EJS wierd syntax
+      tempInput.value = "<%= locals.shortURL %>"; // ? this is the only way you can access the EJS props in the script tag which is by using the EJS wierd syntax
       document.body.appendChild(tempInput);
       tempInput.select();
       document.execCommand("copy");

@@ -2,12 +2,12 @@ import express from "express";
 import connectMongoDB from "./mongodb-connection.js";
 import urlRouter from "./routes/url.js";
 import staticRouter from "./routes/staticRouter.js";
-
 import path from "path";
+import "dotenv/config";
 
 // ? Server setup and initialization
 const app = express();
-const PORT = process.env.PORT;
+const port = process.env.PORT;
 
 // ? middlewares
 app.use(express.json());
@@ -23,9 +23,11 @@ app.use("/", staticRouter); // ! this route will handle all the static page rout
 
 // ? MongoDB connection
 connectMongoDB(
-  `mongodb+srv://anshpradhan03:${process.env.MONGODB_PASSWORD}@cluster0.j57z1me.mongodb.net/`
+  process.env.ENVIRONMENT == "dev"
+    ? process.env.MONGODB_URI_DEVELOPMENT
+    : process.env.MONGODB_URI_PRODUCTION
 )
   .then(() => console.log("Successfully connected to MongoDB"))
   .catch((err) => console.log("error while connecting to mongo", err));
 
-app.listen(PORT, () => console.log(`Server running on port: ${PORT}`));
+app.listen(port, () => console.log(`Server running on port: ${port}`));
