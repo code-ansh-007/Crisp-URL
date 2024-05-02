@@ -13,16 +13,20 @@ export async function handleGenerateNewShortURL(req, res) {
   if (!body.url)
     return res.status(400).json({ msg: "Redirect URL not provided!" });
   const shortId = nanoid(8);
-  await URL.create({
-    shortId,
-    redirectURL: body.url,
-    visitedHistory: [],
-  });
-  const baseURL = req.protocol + "://" + req.get("host") + req.url;
-  const shortURL = baseURL + "url/" + shortId;
-  return res.render("home", {
-    shortURL,
-  });
+  try {
+    await URL.create({
+      shortId,
+      redirectURL: body.url,
+      visitedHistory: [],
+    });
+    const baseURL = req.protocol + "://" + req.get("host") + req.url;
+    const shortURL = baseURL + "url/" + shortId;
+    return res.render("home", {
+      shortURL,
+    });
+  } catch (error) {
+    console.log("error while creating short id: ", error);
+  }
 }
 
 export async function handleGetShortURL(req, res) {
