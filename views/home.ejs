@@ -46,24 +46,26 @@
     <% } %>
   </body>
   <script>
-    function copyURLToClipboard() {
-      var tempInput = document.createElement("input");
-      tempInput.value = "<%= locals.shortURL %>"; // ? this is the only way you can access the EJS props in the script tag which is by using the EJS wierd syntax
-      document.body.appendChild(tempInput);
-      tempInput.select();
-      document.execCommand("copy");
-      document.body.removeChild(tempInput);
-      alert("URL has been copied to clipboard!");
-    }
-
-    document
-      .getElementById("copyButton")
-      .addEventListener("click", copyURLToClipboard);
-    if (performance.navigation.type === 1) {
-      var shortURLParagraph = document.getElementById("shortURL");
-      if (shortURLParagraph) {
-        shortURLParagraph.style.display = "none";
+    document.addEventListener("DOMContentLoaded", function () {
+      function copyURLToClipboard() {
+        var tempInput = document.createElement("input");
+        tempInput.value = "<%= locals.shortURL %>"; // ? this is the only way you can access the EJS props in the script tag which is by using the EJS wierd syntax
+        document.body.appendChild(tempInput);
+        tempInput.select();
+        document.execCommand("copy");
+        document.body.removeChild(tempInput);
+        alert("URL has been copied to clipboard!");
       }
-    }
+
+      var copyButton = document.getElementById("copyButton");
+      if (copyButton) copyButton.addEventListener("click", copyURLToClipboard);
+
+      if (performance.navigation.type === 1) {
+        var shortURLParagraph = document.getElementById("shortURL");
+        if (shortURLParagraph) {
+          shortURLParagraph.style.display = "none";
+        }
+      }
+    });
   </script>
 </html>
