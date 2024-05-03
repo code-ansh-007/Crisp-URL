@@ -17,14 +17,14 @@ const port = process.env.PORT;
 // ? middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: false })); // ! this middleware helps to parse form data in the express server as the body content in the post request
-app.use(cookieParser);
+app.use(cookieParser());
 
 // * EJS setup
 app.set("view engine", "ejs"); // ? telling express that we are using EJS as the templating engine
 app.set("views", path.resolve("./views")); // ? configuring the path where all of our EJS files or views are stored in the MVC software architecture model
 
 // ? setting up routes
-app.use("/url", urlRouter); // ! the route in this router routes middleware is the base URL this means if i set the base URL to "/url" then the route that the home page would land in would look something like this "localhost:3000/url"
+app.use("/url", restrictToLoggedInUserOnly, urlRouter); // ! the route in this router routes middleware is the base URL this means if i set the base URL to "/url" then the route that the home page would land in would look something like this "localhost:3000/url"
 app.use("/", staticRouter); // ! this route will handle all the static page routing
 app.use("/user", userRouter);
 
